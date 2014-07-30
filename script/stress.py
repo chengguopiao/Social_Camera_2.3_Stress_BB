@@ -494,3 +494,4 @@ class CameraTest(unittest.TestCase):
     def _pressBack(self,touchtimes=1):
         for i in range(touchtimes):
             d.press('back')
+
