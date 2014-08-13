@@ -386,6 +386,7 @@ class CameraTest(unittest.TestCase):
 
     #step 1
         sm.switchCaptureMode('depth')
+        time.sleep(10)
     #step 2
         for i in range(500):
             tb.captureAndCheckPicCount('single',2)
@@ -399,6 +400,7 @@ class CameraTest(unittest.TestCase):
         """
         for i in range(100):
             sm.switchCaptureMode('depth')
+            time.sleep(10)
             sm.switchCaptureMode('single')
             time.sleep(2)
 
@@ -410,6 +412,7 @@ class CameraTest(unittest.TestCase):
         """
         for i in range(100):
             sm.switchCaptureMode('depth')
+            time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
             sm.switchCaptureMode('hdr')
             tb.captureAndCheckPicCount('single',2)
@@ -423,6 +426,7 @@ class CameraTest(unittest.TestCase):
         """
         for i in range(100):
             sm.switchCaptureMode('depth')
+            time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
             sm.switchCaptureMode('smile')
             tb.captureAndCheckPicCount('smile',2)
@@ -436,6 +440,7 @@ class CameraTest(unittest.TestCase):
         """
         for i in range(100):
             sm.switchCaptureMode('depth')
+            time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
             sm.switchCaptureMode('video')
             tb.captureAndCheckPicCount('video',3)
@@ -449,6 +454,7 @@ class CameraTest(unittest.TestCase):
         """
         for i in range(100):
             sm.switchCaptureMode('depth')
+            time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
             sm.switchCaptureMode('burstfast')
             tb.captureAndCheckPicCount('single',2)
@@ -462,6 +468,7 @@ class CameraTest(unittest.TestCase):
         """
         for i in range(100):
             sm.switchCaptureMode('depth')
+            time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
             sm.switchCaptureMode('panorama')
             tb.captureAndCheckPicCount('smile',2)
@@ -475,6 +482,7 @@ class CameraTest(unittest.TestCase):
         """
         for i in range(100):
             sm.switchCaptureMode('depth')
+            time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
             sm.switchCaptureMode('perfectshot')
             tb.captureAndCheckPicCount('single',2)
