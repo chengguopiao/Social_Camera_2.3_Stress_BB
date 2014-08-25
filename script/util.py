@@ -19,6 +19,7 @@ ANDROID_SERIAL ='ANDROID_SERIAL'
 ##################################################################################################################
 #SetCaptureMode() Class variable
 MODE_LIST = ['single','depth','panorama','burst','perfectshot','video','burstfast']
+
 POP_MODE  = {'smile':"Smile\nOFF",
              'hdr':"HDR\nOFF",
              'burstfast':'FAST',
@@ -109,7 +110,8 @@ DEFAULT_OPTION    = {'Exposure'         : Exposure[2],
                      
 ##################################################################################################################
 #TouchButton() Class variable
-CONFIRM_MODE_LIST       = ['video','single','depth','panorama','burst','perfectshot']
+CONFIRM_MODE_LIST1       = ['camera','perfectshot','burst','panorama','video','single','depth']
+CONFIRM_MODE_LIST       = ['camera','depth','single','video','panorama','burst','perfectshot']
 CPTUREBUTTON_RESOURCEID = 'com.intel.camera22:id/btn_mode'
 FRONTBACKBUTTON_DESCR   = 'com.intel.camera22:id/shortcut_mode_2'
 CPTUREPOINT             = 'adb shell input swipe 2200 1095 2200 895 '
@@ -236,50 +238,72 @@ class Adb():
 
 class SetCaptureMode():
 
-    def _swipeCaptureList(self,mode): 
-        mode_index = CONFIRM_MODE_LIST.index(mode)    
-        result = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/mode_selected.xml| grep currentMode')
-        a = str(result)
-        b = a[a.index('value="') + 1:a.rindex('/')]
-        cmode = b[b.index('"') + 1:b.rindex('"')]
-        cmodenew = int(cmode)
-        modenew = Mode[cmode]
-        currentindex = CONFIRM_MODE_LIST.index(modenew)
-        tg_mode =  mode_index -currentindex
-        if tg_mode < 0:
-            for i in range(abs(tg_mode)):
-                # mode image coordinate: right_x_coordinate = 2252 left_x_coordinate = 2252. swipe from right to left.
-                d.swipe(2120,944,2252,944)
-        if tg_mode == 0:
-            #print ('current is ' + mode + ' mode')
-            d.press('back')
-        if tg_mode > 0:
-            for i in range(tg_mode):
-                # mode image coordinate: right_x_coordinate = 2252 left_x_coordinate = 2252. swipe from right to left.
-                d.swipe(2252,944,2120,944)
-
-    def _clickCaptureMode(self):
+#    def _swipeCaptureList(self,mode): 
+#        mode_index = CONFIRM_MODE_LIST.index(mode)    
+#        result = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/mode_selected.xml| grep currentMode')
+#        a = str(result)
+#        b = a[a.index('value="') + 1:a.rindex('/')]
+#        cmode = b[b.index('"') + 1:b.rindex('"')]
+#        cmodenew = int(cmode)
+#        modenew = Mode[cmode]
+#        currentindex = CONFIRM_MODE_LIST.index(modenew)
+#        tg_mode =  mode_index -currentindex
+#        if tg_mode < 0:
+#            for i in range(abs(tg_mode)):
+#                # mode image coordinate: right_x_coordinate = 2252 left_x_coordinate = 2252. swipe from right to left.
+#                d.swipe(2120,944,2252,944)
+#        if tg_mode == 0:
+#            #print ('current is ' + mode + ' mode')
+#            d.press('back')
+#        if tg_mode > 0:
+ #           for i in range(tg_mode):
+ #               # mode image coordinate: right_x_coordinate = 2252 left_x_coordinate = 2252. swipe from right to left.
+ #               d.swipe(2252,944,2120,944)
+#
+#    def _clickCaptureMode(self):
         # mode image center coordinate (2195,975)
-        d.click(2195,910)
+ #       d.click(2195,910)
 
-    def switchCaptureMode(self,mode):
-        '''
-        Usage: This method is used to switch social camera 2.3 capture mode.
-        e.g. SetCaptureMode.switchCaptureMode('single')
-        '''
-        d(description = 'Show switch camera mode list').click.wait()
-        d.click(2195,910)
-        time.sleep(1)        
-        d(description = 'Show switch camera mode list').click.wait()
-        if mode == 'smile' or mode == 'hdr':
-            d(text = POP_MODE[mode]).click.wait()
-        elif mode == 'burstfast' or mode == 'burstslow':
-            self._swipeCaptureList('burst')
-            d(text = POP_MODE[mode]).click.wait()
-        else:
-            self._swipeCaptureList(mode)
-            time.sleep(1)
-            self._clickCaptureMode()
+  #  def switchCaptureMode(self,mode):
+   #     '''
+    #    Usage: This method is used to switch social camera 2.3 capture mode.
+    #    e.g. SetCaptureMode.switchCaptureMode('single')
+    #    '''
+    #    d(description = 'Show switch camera mode list').click.wait()
+    #    d.click(2195,910)
+    #    time.sleep(1)        
+    #    d(description = 'Show switch camera mode list').click.wait()
+    #    if mode == 'smile' or mode == 'hdr':
+    #        d(text = POP_MODE[mode]).click.wait()
+    #    elif mode == 'burstfast' or mode == 'burstslow':
+    #        self._swipeCaptureList('burst')
+      #3      d(text = POP_MODE[mode]).click.wait()
+     #   else:
+     #       self._swipeCaptureList(mode)
+       #     time.sleep(1)
+       #     self._clickCaptureMode()
+
+     def switchCaptureMode(self,mode):
+         d(resourceId = 'com.intel.camera22:id/mode_button').click.wait()
+         time.sleep(2)
+         if mode == 'smile' or mode == 'hdr':
+             d.click(2200,500)
+             d(text = POP_MODE[mode]).click.wait()
+         elif mode == 'burstfast' or mode == 'burstslow':
+             d.click(2200,500)
+             d(text = POP_MODE[mode]).click.wait()
+         else:
+             mode_index = CONFIRM_MODE_LIST.index(mode)
+             x1=330
+             x=150
+             y=x1+mode_index*x
+             d.click(2200,y)
+             time.sleep(2)
+              
+             
+         
+
+
 
 class SetOption():
 
