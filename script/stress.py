@@ -24,7 +24,7 @@ HD                  =['5','false']
 HSD                 =['5','true']
 HFD                 =['6','false']
 HSFD                =['6','true']
-CAMERAMODE_LIST     = ['single','depth','panorama','burst','perfectshot','video']
+CAMERAMODE_LIST     = ['Depth Snapshot','Single','Video','Panorama','Burst','Perfect Shot']
 FLASH_MODE          =['on','off','auto']
 SCENE_MODE          =['auto','landscape','portrait','night','sports','night-portrait']
 EXPOSURE_MODE       = ['-6','-3','0','3','6']
@@ -45,7 +45,7 @@ class CameraTest(unittest.TestCase):
         a.cmd('refresh','/sdcard/DCIM/*')
         #Launch social camera
         self._launchCamera()
-        sm.switchCaptureMode('single')
+        sm.switchCaptureMode('Single')
 
     def tearDown(self):
         #ad.cmd('pm','com.intel.camera22') #Force reset the camera settings to default
@@ -105,7 +105,7 @@ class CameraTest(unittest.TestCase):
         """
         for i in range(100):
             flash_mode = random.choice(FLASH_MODE)
-            sm.so.setCameraOption('Flash',flash_mode)
+            so.setCameraOption('Flash',flash_mode)
 
     # Test case 5
     def testChangeSceneMode100Times(self):
@@ -157,7 +157,7 @@ class CameraTest(unittest.TestCase):
         2.Change video size 100 times
         3.Exit  activity
         """
-        sm.switchCaptureMode('video')
+        sm.switchCaptureMode('Video')
         for i in range(100):
             size_mode = random.choice(VIDEOSIZE_MODE)
             so.setCameraOption('Video Size',size_mode)
@@ -217,7 +217,7 @@ class CameraTest(unittest.TestCase):
                  2.Capture hdr image 500 times
                  3.Exit  activity
         '''
-        sm.switchCaptureMode('hdr')
+        sm.switchCaptureMode('Single','HDR')
         for i in range(500):
             tb.captureAndCheckPicCount('single',5)
 
@@ -229,7 +229,7 @@ class CameraTest(unittest.TestCase):
                  2.Capture smile image 500 times
                  3.Exit  activity
         '''
-        sm.switchCaptureMode('smile')
+        sm.switchCaptureMode('Single','Smile')
         for i in range(500):
             tb.captureAndCheckPicCount('smile',2)
 
@@ -241,7 +241,7 @@ class CameraTest(unittest.TestCase):
                  2.Record 1080P video 500 times
                  3.Exit  activity
         '''
-        sm.switchCaptureMode('video')
+        sm.switchCaptureMode('Video')
         for i in range(500):
             tb.captureAndCheckPicCount('video',5)
 
@@ -269,7 +269,7 @@ class CameraTest(unittest.TestCase):
                 3.Exit  activity
         """
     #step 1
-        sm.switchCaptureMode('perfectshot')
+        sm.switchCaptureMode('Perfect Shot')
     #step 2 
         for i in range(200):
             tb.captureAndCheckPicCount('single',5)
@@ -285,7 +285,7 @@ class CameraTest(unittest.TestCase):
                 3.Exit  activity
         """
     #step 1
-        sm.switchCaptureMode('panorama')
+        sm.switchCaptureMode('Panorama')
     #step 2
         for i in range(200):
             tb.captureAndCheckPicCount('smile',3)
@@ -318,7 +318,7 @@ class CameraTest(unittest.TestCase):
         8M pixels, back camera
         """
     #step 1
-        sm.switchCaptureMode('smile')
+        sm.switchCaptureMode('Single','Smile')
         so.setCameraOption('Picture Size','StandardScreen')
     #step 2
         tb.switchBackOrFrontCamera('back')
@@ -336,7 +336,7 @@ class CameraTest(unittest.TestCase):
         Video size 720P
         """
     #step 1
-        sm.switchCaptureMode('video')
+        sm.switchCaptureMode('Video')
         so.setCameraOption('Video Size',['false','5'])
         d.expect('video.png')
     #step 2 
@@ -353,7 +353,7 @@ class CameraTest(unittest.TestCase):
 
         """
     #step 1
-        sm.switchCaptureMode('video')
+        sm.switchCaptureMode('Video')
         so.setCameraOption('Video Size',['false','4'])
     #step 2 
         for i in range (500):
@@ -369,7 +369,7 @@ class CameraTest(unittest.TestCase):
         """
 
     #step 1
-        sm.switchCaptureMode('burstfast')
+        sm.switchCaptureMode('Burst','Fast')
         so.setCameraOption('Picture Size','StandardScreen')
     #step 2 
         tb.switchBackOrFrontCamera('back')
@@ -386,7 +386,7 @@ class CameraTest(unittest.TestCase):
         """
 
     #step 1
-        sm.switchCaptureMode('depth')
+        sm.switchCaptureMode('Depth Snapshot')
         time.sleep(10)
     #step 2
         for i in range(500):
@@ -400,9 +400,9 @@ class CameraTest(unittest.TestCase):
         back camera
         """
         for i in range(100):
-            sm.switchCaptureMode('depth')
+            sm.switchCaptureMode('Depth Snapshot')
             time.sleep(10)
-            sm.switchCaptureMode('single')
+            sm.switchCaptureMode('Single')
             time.sleep(2)
 
     # Test Case 27
@@ -412,10 +412,10 @@ class CameraTest(unittest.TestCase):
         back camera
         """
         for i in range(100):
-            sm.switchCaptureMode('depth')
+            sm.switchCaptureMode('Depth Snapshot')
             time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('hdr')
+            sm.switchCaptureMode('Single','HDR')
             tb.captureAndCheckPicCount('single',2)
             time.sleep(2)
 
@@ -426,10 +426,10 @@ class CameraTest(unittest.TestCase):
         back camera
         """
         for i in range(100):
-            sm.switchCaptureMode('depth')
+            sm.switchCaptureMode('Depth Snapshot')
             time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('smile')
+            sm.switchCaptureMode('Single','Smile')
             tb.captureAndCheckPicCount('smile',2)
             time.sleep(2)
 
@@ -440,10 +440,10 @@ class CameraTest(unittest.TestCase):
         back camera
         """
         for i in range(100):
-            sm.switchCaptureMode('depth')
+            sm.switchCaptureMode('Depth Snapshot')
             time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('video')
+            sm.switchCaptureMode('Video')
             tb.captureAndCheckPicCount('video',3)
             time.sleep(2)
 
@@ -454,10 +454,10 @@ class CameraTest(unittest.TestCase):
         back camera
         """
         for i in range(100):
-            sm.switchCaptureMode('depth')
+            sm.switchCaptureMode('Depth Snapshot')
             time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('burstfast')
+            sm.switchCaptureMode('Burst','Fast')
             tb.captureAndCheckPicCount('single',2)
             time.sleep(2)
 
@@ -468,10 +468,10 @@ class CameraTest(unittest.TestCase):
         back camera
         """
         for i in range(100):
-            sm.switchCaptureMode('depth')
+            sm.switchCaptureMode('Depth Snapshot')
             time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('panorama')
+            sm.switchCaptureMode('Panorama')
             tb.captureAndCheckPicCount('smile',2)
             time.sleep(2)
 
@@ -482,10 +482,10 @@ class CameraTest(unittest.TestCase):
         back camera
         """
         for i in range(100):
-            sm.switchCaptureMode('depth')
+            sm.switchCaptureMode('Depth Snapshot')
             time.sleep(10)
             tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('perfectshot')
+            sm.switchCaptureMode('Perfect Shot')
             tb.captureAndCheckPicCount('single',2)
             time.sleep(2)
 
