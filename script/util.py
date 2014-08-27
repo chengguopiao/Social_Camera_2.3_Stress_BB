@@ -288,6 +288,7 @@ class SetCaptureMode():
             New designing
         '''
         d(description = 'Show switch camera mode list').click.wait()
+        time.sleep(2)
         d(text = mode).click.wait()
         if sub_mode != None:
             d(text = SUB_MODE[sub_mode]).click.wait()
