@@ -45,7 +45,6 @@ class CameraTest(unittest.TestCase):
         a.cmd('refresh','/sdcard/DCIM/*')
         #Launch social camera
         self._launchCamera()
-        sm.switchCaptureMode('Single')
 
     def tearDown(self):
         #ad.cmd('pm','com.intel.camera22') #Force reset the camera settings to default
@@ -338,7 +337,6 @@ class CameraTest(unittest.TestCase):
     #step 1
         sm.switchCaptureMode('Video')
         so.setCameraOption('Video Size',['false','5'])
-        d.expect('video.png')
     #step 2 
         for i in range (500):
             tb.captureAndCheckPicCount('video',3)
