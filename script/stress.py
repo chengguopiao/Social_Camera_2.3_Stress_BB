@@ -253,7 +253,7 @@ class CameraTest(unittest.TestCase):
                  3.Record video 500 times
                  4.Exit  activity
         '''
-        sm.switchCaptureMode('video')
+        sm.switchCaptureMode('Video')
         tb.switchBackOrFrontCamera('front')
         for i in range(500):
             tb.captureAndCheckPicCount('video',5)
