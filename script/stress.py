@@ -61,6 +61,7 @@ class CameraTest(unittest.TestCase):
         2.Switch camera mode 50 times
         3.Exit  activity
         """
+        sm.switchCaptureMode('Single')
         for i in range(50):
             mode = random.choice(CAMERAMODE_LIST)
             sm.switchCaptureMode(mode)
@@ -74,6 +75,7 @@ class CameraTest(unittest.TestCase):
         2.Repeat 50 times
         3.Exit  activity
         """
+        sm.switchCaptureMode('Single')
         for i in range(50):
             self._pressBack(4)
             a.cmd('launch','com.intel.camera22/.Camera')
@@ -88,6 +90,7 @@ class CameraTest(unittest.TestCase):
         2.Switch Back/Front camera in single mode 30 times
         3.Exit  activity
         """
+        sm.switchCaptureMode('Single')
         for i in range(30):
             tb.switchBackOrFrontCamera('front')
             tb.switchBackOrFrontCamera('back')
@@ -102,6 +105,7 @@ class CameraTest(unittest.TestCase):
         2.Change flash mode 100 times
         3.Exit  activity
         """
+        sm.switchCaptureMode('Single')
         for i in range(100):
             flash_mode = random.choice(FLASH_MODE)
             so.setCameraOption('Flash',flash_mode)
@@ -115,6 +119,7 @@ class CameraTest(unittest.TestCase):
         2.Change scene mode 100 times
         3.Exit  activity
         """
+        sm.switchCaptureMode('Single')
         for i in range(100):
             scene_mode = random.choice(SCENE_MODE)
             so.setCameraOption('Scenes',scene_mode)
@@ -128,6 +133,7 @@ class CameraTest(unittest.TestCase):
         2.Change exposure mode 100 times
         3.Exit  activity
         """
+        sm.switchCaptureMode('Single')
         for i in range(100):
             exposure_mode = random.choice(EXPOSURE_MODE)
             so.setCameraOption('Exposure',exposure_mode)
@@ -143,6 +149,7 @@ class CameraTest(unittest.TestCase):
         2.Change picture size 100 times
         3.Exit  activity
         """
+        sm.switchCaptureMode('Single')
         for i in range(100):
             size_mode = random.choice(PICTURESIZE_MODE)
             so.setCameraOption('Picture Size',size_mode)
@@ -156,6 +163,7 @@ class CameraTest(unittest.TestCase):
         2.Change video size 100 times
         3.Exit  activity
         """
+        sm.switchCaptureMode('Single')
         sm.switchCaptureMode('Video')
         for i in range(100):
             size_mode = random.choice(VIDEOSIZE_MODE)
@@ -170,6 +178,7 @@ class CameraTest(unittest.TestCase):
                  2.enter gallery from gallery preview thumbnail 100times
                  3.Exit  activity
         '''
+        sm.switchCaptureMode('Single')
         for i in range(100):
             time.sleep(3)
             tb.captureAndCheckPicCount('single',2)  # capture picture
@@ -192,6 +201,7 @@ class CameraTest(unittest.TestCase):
                  2.Capture single image 500 times
                  3.Exit  activity
         '''
+        sm.switchCaptureMode('Single')
         for i in range(500):
             tb.captureAndCheckPicCount('single',2)
 
@@ -203,6 +213,7 @@ class CameraTest(unittest.TestCase):
                  2.Capture single image 500 times
                  3.Exit  activity
         '''
+        sm.switchCaptureMode('Single')
         tb.switchBackOrFrontCamera('front') #Force set camera to front
         for i in range(500):
             tb.captureAndCheckPicCount('single',2)
@@ -299,7 +310,8 @@ class CameraTest(unittest.TestCase):
         8M pixels, back camera
 
         """
-    #step 1    
+    #step 1
+        sm.switchCaptureMode('Single')
         so.setCameraOption('Picture Size','StandardScreen')
     #step 2
         tb.switchBackOrFrontCamera('back')
