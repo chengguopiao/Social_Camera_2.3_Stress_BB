@@ -499,6 +499,33 @@ class CameraTest(unittest.TestCase):
             tb.captureAndCheckPicCount('single',2)
             time.sleep(2)
 
+    #Add on Sep 18th
+    def testcaseBurstImage6M200Times(self):
+        """
+        test case Burst Image 200 times
+        6M pixels, back camera
+        """
+
+    #step 1
+        sm.switchCaptureMode('Burst','Fast')
+    #step 2 
+        tb.switchBackOrFrontCamera('back')
+    #step 3
+        for i in range(200):
+            tb.captureAndCheckPicCount('single',5)
+            time.sleep(1)
+            
+    #Add on Sep 18th
+    def testCaptureContinuousImage50times(self):
+        """
+        test case continuous image 50 times
+        """
+        sm.switchCaptureMode('Single')
+        tb.switchBackOrFrontCamera('back')
+        for i in range(50):
+            tb.captureAndCheckPicCount('longclick',3)
+            time.sleep(1)
+
 ############################################################################################################
 ##############################################################################################################
 
