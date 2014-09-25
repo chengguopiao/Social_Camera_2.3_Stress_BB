@@ -17,7 +17,7 @@
 script.stress.CameraTest.testSwitchDepthToSingle100Times = 1
 script.stress.CameraTest.testCaptureDepthImageThenHDRImage100Times = 1
 script.stress.CameraTest.testCaptureDepthImageThenSmileImage100Times = 1
-script.stress.CameraTest.testCaptureDepthImageThenTakeVideo100Times = 1
+#script.stress.CameraTest.testCaptureDepthImageThenTakeVideo100Times = 1
 script.stress.CameraTest.testCaptureDepthImageThenBurstImage100Times = 1
 script.stress.CameraTest.testCaptureDepthImageThenPanoramaImage100Times = 1
 script.stress.CameraTest.testCaptureDepthImageThenPerfectshotImage100Times = 1
