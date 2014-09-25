@@ -409,9 +409,9 @@ class CameraTest(unittest.TestCase):
         test Switch Depth mode to Single mode 100 times
         back camera
         """
+        sm.switchCaptureMode('Depth Snapshot')
+        time.sleep(10)        
         for i in range(100):
-            sm.switchCaptureMode('Depth Snapshot')
-            time.sleep(10)
             sm.switchCaptureMode('Single')
             time.sleep(2)
 
@@ -421,11 +421,12 @@ class CameraTest(unittest.TestCase):
         test capture depth image and then capture HDR image 100 times.
         back camera
         """
+        sm.switchCaptureMode('Depth Snapshot')
+        time.sleep(10)
+        tb.captureAndCheckPicCount('single',2)
+        sm.switchCaptureMode('Single','HDR')        
         for i in range(100):
-            sm.switchCaptureMode('Depth Snapshot')
-            time.sleep(10)
-            tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('Single','HDR')
+
             tb.captureAndCheckPicCount('single',2)
             time.sleep(2)
 
@@ -435,11 +436,12 @@ class CameraTest(unittest.TestCase):
         test capture depth image and then capture smile image 100 times.
         back camera
         """
+        sm.switchCaptureMode('Depth Snapshot')
+        time.sleep(10)
+        tb.captureAndCheckPicCount('single',2)
+        sm.switchCaptureMode('Single','Smile')        
         for i in range(100):
-            sm.switchCaptureMode('Depth Snapshot')
-            time.sleep(10)
-            tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('Single','Smile')
+
             tb.captureAndCheckPicCount('smile',2)
             time.sleep(2)
 
@@ -449,11 +451,12 @@ class CameraTest(unittest.TestCase):
         test capture depth image and then take video 100 times.
         back camera
         """
+        sm.switchCaptureMode('Depth Snapshot')
+        time.sleep(10)
+        tb.captureAndCheckPicCount('single',2)
+        sm.switchCaptureMode('Video')        
         for i in range(100):
-            sm.switchCaptureMode('Depth Snapshot')
-            time.sleep(10)
-            tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('Video')
+
             tb.captureAndCheckPicCount('video',3)
             time.sleep(2)
 
@@ -463,11 +466,12 @@ class CameraTest(unittest.TestCase):
         test capture depth image and then capture burst image 100 times.
         back camera
         """
+        sm.switchCaptureMode('Depth Snapshot')
+        time.sleep(10)
+        tb.captureAndCheckPicCount('single',2)
+        sm.switchCaptureMode('Burst','Fast')        
         for i in range(100):
-            sm.switchCaptureMode('Depth Snapshot')
-            time.sleep(10)
-            tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('Burst','Fast')
+
             tb.captureAndCheckPicCount('single',2)
             time.sleep(2)
 
@@ -477,11 +481,11 @@ class CameraTest(unittest.TestCase):
         test capture depth image and then capture panorama image 100 times.
         back camera
         """
+        sm.switchCaptureMode('Depth Snapshot')
+        time.sleep(10)
+        tb.captureAndCheckPicCount('single',2)
+        sm.switchCaptureMode('Panorama')        
         for i in range(100):
-            sm.switchCaptureMode('Depth Snapshot')
-            time.sleep(10)
-            tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('Panorama')
             tb.captureAndCheckPicCount('smile',2)
             time.sleep(2)
 
@@ -491,11 +495,12 @@ class CameraTest(unittest.TestCase):
         test capture depth image and then capture panorama image 100 times.
         back camera
         """
+        sm.switchCaptureMode('Depth Snapshot')
+        time.sleep(10)
+        tb.captureAndCheckPicCount('single',2)
+        sm.switchCaptureMode('Perfect Shot')        
         for i in range(100):
-            sm.switchCaptureMode('Depth Snapshot')
-            time.sleep(10)
-            tb.captureAndCheckPicCount('single',2)
-            sm.switchCaptureMode('Perfect Shot')
+
             tb.captureAndCheckPicCount('single',2)
             time.sleep(2)
 
