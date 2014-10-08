@@ -292,7 +292,9 @@ class SetCaptureMode():
         d(text = mode).click.wait()
         if sub_mode != None:
             d(text = SUB_MODE[sub_mode]).click.wait()
-
+        else:
+             time.sleep(6)
+             
 class SetOption():
 
     def _getOptionOrdinate(self,optiontext):
