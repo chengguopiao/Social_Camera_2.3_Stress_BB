@@ -217,7 +217,7 @@ class CameraTest(unittest.TestCase):
                  3.Exit  activity
         '''
         sm.switchCaptureMode('Single')
-        tb.switchBackOrFrontCamera('front') #Force set camera to front
+        #tb.switchBackOrFrontCamera('front') #Force set camera to front
         for i in range(500):
             tb.captureAndCheckPicCount('single',2)
         tb.switchBackOrFrontCamera('back')
@@ -268,7 +268,7 @@ class CameraTest(unittest.TestCase):
                  4.Exit  activity
         '''
         sm.switchCaptureMode('Video')
-        tb.switchBackOrFrontCamera('front')
+        #tb.switchBackOrFrontCamera('front')
         for i in range(500):
             tb.captureAndCheckPicCount('video',5)
         tb.switchBackOrFrontCamera('back')
@@ -317,7 +317,6 @@ class CameraTest(unittest.TestCase):
         sm.switchCaptureMode('Single')
         so.setCameraOption('Picture Size','StandardScreen')
     #step 2
-        tb.switchBackOrFrontCamera('back')
     #step 3
         for i in range(500):
             tb.captureAndCheckPicCount('single',3)
@@ -335,7 +334,6 @@ class CameraTest(unittest.TestCase):
         sm.switchCaptureMode('Single','Smile')
         so.setCameraOption('Picture Size','StandardScreen')
     #step 2
-        tb.switchBackOrFrontCamera('back')
     #step 3
         for i in range(500):
             tb.captureAndCheckPicCount('smile',3)
@@ -385,7 +383,6 @@ class CameraTest(unittest.TestCase):
         sm.switchCaptureMode('Burst','Fast')
         so.setCameraOption('Picture Size','StandardScreen')
     #step 2 
-        tb.switchBackOrFrontCamera('back')
     #step 3
         for i in range(200):
             tb.captureAndCheckPicCount('single',5)
