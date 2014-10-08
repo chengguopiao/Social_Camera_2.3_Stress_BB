@@ -65,6 +65,7 @@ class CameraTest(unittest.TestCase):
         for i in range(50):
             mode = random.choice(CAMERAMODE_LIST)
             sm.switchCaptureMode(mode)
+            time.sleep(3)
 
         # Test case 2
     def testLaunchCamera50Times(self):
@@ -123,6 +124,7 @@ class CameraTest(unittest.TestCase):
         for i in range(100):
             scene_mode = random.choice(SCENE_MODE)
             so.setCameraOption('Scenes',scene_mode)
+            time.sleep(3)
 
     # Test case 6
     def testChangeExposureMode100Times(self):
@@ -164,6 +166,7 @@ class CameraTest(unittest.TestCase):
         3.Exit  activity
         """
         sm.switchCaptureMode('Single')
+        time.sleep(2)
         sm.switchCaptureMode('Video')
         for i in range(100):
             size_mode = random.choice(VIDEOSIZE_MODE)
@@ -413,7 +416,7 @@ class CameraTest(unittest.TestCase):
         time.sleep(10)        
         for i in range(100):
             sm.switchCaptureMode('Single')
-            time.sleep(2)
+            time.sleep(3)
 
     # Test Case 27
     def testCaptureDepthImageThenHDRImage100Times(self):
@@ -514,11 +517,10 @@ class CameraTest(unittest.TestCase):
     #step 1
         sm.switchCaptureMode('Burst','Fast')
     #step 2 
-        tb.switchBackOrFrontCamera('back')
     #step 3
         for i in range(200):
             tb.captureAndCheckPicCount('single',5)
-            time.sleep(1)
+            time.sleep(2)
             
     #Add on Sep 18th
     def testCaptureContinuousImage50times(self):
@@ -526,10 +528,9 @@ class CameraTest(unittest.TestCase):
         test case continuous image 50 times
         """
         sm.switchCaptureMode('Single')
-        tb.switchBackOrFrontCamera('back')
         for i in range(50):
             tb.captureAndCheckPicCount('longclick',3)
-            time.sleep(1)
+            time.sleep(2)
 
 ############################################################################################################
 ##############################################################################################################
