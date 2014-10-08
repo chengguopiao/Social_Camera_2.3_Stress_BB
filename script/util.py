@@ -116,8 +116,8 @@ DEFAULT_OPTION    = {'Exposure'         : Exposure[2],
 CONFIRM_MODE_LIST       = ['video','single','depth','panorama','burst','perfectshot']
 CPTUREBUTTON_RESOURCEID = 'com.intel.camera22:id/btn_mode'
 FRONTBACKBUTTON_DESCR   = 'com.intel.camera22:id/shortcut_mode_2'
-CPTUREPOINT             = 'adb shell input swipe 2200 1095 2200 895 '
-DRAWUP_CAPTUREBUTTON    = 'adb shell input swipe 2200 1095 2200 895 '
+CPTUREPOINT             = 'adb shell input swipe 2171 1026 2171 1200 '
+DRAWUP_CAPTUREBUTTON    = 'adb shell input swipe 2171 1026 2200 1200 '
 CAMERA_ID               = 'adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | grep pref_camera_id_key'
 
 ##################################################################################################################
