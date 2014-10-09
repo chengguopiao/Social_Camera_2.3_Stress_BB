@@ -25,7 +25,7 @@
 script.stress.CameraTest.testSwitchMode50Times = 1
 #script.stress.CameraTest.testLaunchCamera50Times = 1
 #script.stress.CameraTest.testSwitchBackFrontCameraInSingleMode30Times = 1
-script.stress.CameraTest.testChangeSceneMode100Times = 1
+##script.stress.CameraTest.testChangeSceneMode100Times = 1
 #script.stress.CameraTest.testChangeExposureMode100Times = 1
 #script.stress.CameraTest.testChangePictureSizeMode100Times = 1
 script.stress.CameraTest.testcaseBurstImage6M200Times = 1
