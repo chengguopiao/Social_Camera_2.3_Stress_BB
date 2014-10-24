@@ -501,7 +501,7 @@ class CameraTest(unittest.TestCase):
         sm.switchCaptureMode('Perfect Shot')        
         for i in range(100):
 
-            tb.captureAndCheckPicCount('single',2)
+            tb.captureAndCheckPicCount('single',6)
             time.sleep(2)
 
     #Add on Sep 18th
