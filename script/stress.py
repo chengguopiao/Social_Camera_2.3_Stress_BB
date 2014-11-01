@@ -48,8 +48,8 @@ class CameraTest(unittest.TestCase):
 
     def tearDown(self):
         #ad.cmd('pm','com.intel.camera22') #Force reset the camera settings to default
-        self._pressBack(4)
         super(CameraTest,self).tearDown()
+        self._pressBack(4)
         a.cmd('pm','com.intel.camera22')
     
     # Test case 1
