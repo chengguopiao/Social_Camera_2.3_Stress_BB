@@ -542,4 +542,4 @@ class TouchButton():
                raise Exception('Taking burst/perfect failed!')
         else:
             if string.atoi(beforeNo) == string.atoi(afterNo) :#If the count does not raise up after capturing, case failed
-                raise Exception('Taking picture/video failed!')
+                raise Exception('Taking pictures/videos failed!')
