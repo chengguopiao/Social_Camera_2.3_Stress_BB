@@ -529,13 +529,13 @@ class TouchButton():
 
     def captureAndCheckPicCount(self,capturemode,delaytime=0):
         d = { 'single':'jpg', 'video':'mp4', 'smile':'jpg', 'longclick':'jpg'} 
-        beforeNo = commands.getoutput('adb shell ls /sdcard/DCIM/100ANDRO/* | grep '+ d[capturemode] +' | wc -l') #Get count before capturing
+        beforeNo = commands.getoutput('adb shell ls /sdcard/DCIM/*/* | grep '+ d[capturemode] +' | wc -l') #Get count before capturing
         if capturemode == 'video':
             self.takeVideo(delaytime)
         else:
             self.takePicture(capturemode)
         time.sleep(delaytime) #Sleep a few seconds for file saving
-        afterNo = commands.getoutput('adb shell ls /sdcard/DCIM/100ANDRO/* | grep '+ d[capturemode] +' | wc -l') #Get count after taking picture
+        afterNo = commands.getoutput('adb shell ls /sdcard/DCIM/*/* | grep '+ d[capturemode] +' | wc -l') #Get count after taking picture
         result = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/mode_selected.xml| grep \'value="3"\'')
         if result.find('value="3"') != -1:
             if string.atoi(beforeNo) != string.atoi(afterNo) - 10:
