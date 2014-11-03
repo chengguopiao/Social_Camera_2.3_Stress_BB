@@ -40,17 +40,19 @@ class CameraTest(unittest.TestCase):
     def setUp(self):
         super(CameraTest,self).setUp()
         #Delete all image/video files captured before
-        a.cmd('rm','/sdcard/DCIM/*')
+        #a.cmd('rm','/sdcard/DCIM/*')
         #Refresh media after delete files
-        a.cmd('refresh','/sdcard/DCIM/*')
+        #a.cmd('refresh','/sdcard/DCIM/*')
         #Launch social camera
-        self._launchCamera()
+        #self._launchCamera()
+        a.setUpDevice()
 
     def tearDown(self):
         #ad.cmd('pm','com.intel.camera22') #Force reset the camera settings to default
         super(CameraTest,self).tearDown()
-        self._pressBack(4)
-        a.cmd('pm','com.intel.camera22')
+        #self._pressBack(4)
+        #a.cmd('pm','com.intel.camera22')
+        a.tearDownDevice()
     
     # Test case 1
     def testSwitchMode50Times(self):
