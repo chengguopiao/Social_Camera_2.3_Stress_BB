@@ -113,6 +113,7 @@ DEFAULT_OPTION    = {'Exposure'         : Exposure[2],
                      
 ##################################################################################################################
 #TouchButton() Class variable
+ACTIVITY_NAME           = 'com.intel.camera22/.Camera'
 CONFIRM_MODE_LIST       = ['video','single','depth','panorama','burst','perfectshot']
 CPTUREBUTTON_RESOURCEID = 'com.intel.camera22:id/btn_mode'
 FRONTBACKBUTTON_DESCR   = 'com.intel.camera22:id/shortcut_mode_2'
