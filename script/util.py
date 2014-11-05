@@ -399,7 +399,7 @@ class SetOption():
         #print '_0_0.xml wc -l = %s' %cated_0_0 + ' and _0.xml wc -l = %s' %cated_0
         #If it is the first time launching camera, there are only 4 lines in _0_0.xml. Need more logic.
         #if cated_0_0 <= 4 or cated_0 <= 9:
-        if cated_0_0 <= 4 and cated_0 <= 8:
+        if cated_0_0 <= 4 and cated_0 <= 8 and newoptiontext!='Geo_Location':
             currentoption = DEFAULT_OPTION[newoptiontext]
             currentindex = DICT_OPTION_NAME[newoptiontext].index(currentoption)
             targetindex  = DICT_OPTION_NAME[newoptiontext].index(option)
