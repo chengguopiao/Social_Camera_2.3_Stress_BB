@@ -334,7 +334,8 @@ class SetOption():
         return optiony
 
     def _getOptionWidthAndHeight(self):
-        optionbounds = d(className = 'android.widget.RelativeLayout', index = '4').info.get('bounds')
+        optionbounds = d(className = 'android.widget.GridView', resourceId = 'com.intel.camera22:id/setting_gridview').child(className = 'android.widget.RelativeLayout', index = '0').info.get('bounds')
+        #optionbounds = d(className = 'android.widget.RelativeLayout', index = '4').info.get('bounds')
         optionwidth  = (optionbounds['right'] - optionbounds['left'])
         optionheight = (optionbounds['bottom'] - optionbounds['top'])
         return optionwidth, optionheight
@@ -397,7 +398,8 @@ class SetOption():
         cated_0 = int(commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | wc -l'))
         #print '_0_0.xml wc -l = %s' %cated_0_0 + ' and _0.xml wc -l = %s' %cated_0
         #If it is the first time launching camera, there are only 4 lines in _0_0.xml. Need more logic.
-        if cated_0_0 <= 4 or cated_0 <= 9:
+        #if cated_0_0 <= 4 or cated_0 <= 9:
+        if cated_0_0 <= 4 and cated_0 <= 8:
             currentoption = DEFAULT_OPTION[newoptiontext]
             currentindex = DICT_OPTION_NAME[newoptiontext].index(currentoption)
             targetindex  = DICT_OPTION_NAME[newoptiontext].index(option)
@@ -432,6 +434,12 @@ class SetOption():
             currentindex = DICT_OPTION_NAME[newoptiontext].index(currentoption)
             targetindex  = DICT_OPTION_NAME[newoptiontext].index(option)
             diffindex = abs(currentindex - targetindex)
+            if currentindex != targetindex:
+                d.click(self._getFirstItem() + self._getOptionWidthAndHeight()[0] * targetindex, self._getOptionOrdinate(optiontext))
+                d.click(1000,500)
+            else:
+                d.click(1000,500)
+            '''
             #Settinglayout do change UI very much, so need one more logic
             settinglayout = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | grep pref_settings_layout_key')
             if settinglayout.find('Large')!= -1:
@@ -448,6 +456,7 @@ class SetOption():
                 else:
                     #Neither higher nor lower than the target option, that means the current option is just the target one.
                     d(resourceId = 'com.intel.camera22:id/mini_layout_view').click.wait()
+                    '''
         # oldoption    = DICT_OPTION_NAME[newoptiontext].index(DEFAULT_OPTION[newoptiontext])
         # targetoption = DICT_OPTION_NAME[newoptiontext].index(option)
         # if oldoption != targetoption:
