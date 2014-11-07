@@ -30,15 +30,36 @@ POP_MODE  = {'smile':"Smile\nOFF",
              'burstslow':'SLOW'
              }
 ######################################################################################################################################
-Mode   = {'9':'video',
-          '1':'single',
-          '11':'depth',
-          '12':'panorama',
-          '5':'burst',
-          '7':'perfectshot',
-          '0':'burstfast'
-          }
-
+Confirm_Mode = {'Depth Snapshot':'depth',
+                'Single':'single',
+                'Video':'video',
+                'Panorama':'panorama',
+                'Burst':'burst',
+                'Perfect Shot':'perfectshot',
+                'smile':'smile',
+                'hdr':'hdr',
+                'default':'default'
+                }
+Mode         = {'9':'video',
+                '1':'single',
+                '12':'depth',
+                '11':'panorama',
+                '5':'burst',
+                '7':'perfectshot',
+                '3':'smile',
+                '2':'hdr',
+                '0':'default'
+                }
+ModeNumber   = {'video':'9',
+                'single':'1',
+                'depth':'12',
+                'panorama':'11',
+                'burst':'5',
+                'perfectshot':'7',
+                'smile':'3',
+                'hdr':'2',
+                'default':'0'
+                }
 ##################################################################################################################
 #SetOption() Class variable
 Exposure          = ['-6','-3','0','3','6'] #_0_0
@@ -114,11 +135,12 @@ DEFAULT_OPTION    = {'Exposure'         : Exposure[2],
 ##################################################################################################################
 #TouchButton() Class variable
 ACTIVITY_NAME           = 'com.intel.camera22/.Camera'
-CONFIRM_MODE_LIST       = ['video','single','depth','panorama','burst','perfectshot']
+CONFIRM_MODE_LIST       = ['video','single','depth','panorama','burst','perfectshot','smile','hdr','default']
 CPTUREBUTTON_RESOURCEID = 'com.intel.camera22:id/btn_mode'
 FRONTBACKBUTTON_DESCR   = 'com.intel.camera22:id/shortcut_mode_2'
-CPTUREPOINT             = 'adb shell input swipe 2171 1026 2171 1200 '
-DRAWUP_CAPTUREBUTTON    = 'adb shell input swipe 2171 1026 2200 1200 '
+CPTUREPOINT             = 'adb shell input swipe 2200 1095 2200 895 '
+DRAWUP_CAPTUREBUTTON    = 'adb shell input swipe 2200 1095 2200 895 '
+PATH_PREF_XML           = 'adb shell cat /data/data/com.intel.camera22/shared_prefs/'
 CAMERA_ID               = 'adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | grep pref_camera_id_key'
 
 ##################################################################################################################
@@ -238,17 +260,18 @@ class Adb():
     def _t_cmd(self,func):
         cmd = ADB + ' ' + func
         return subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-    def setUpDevice(self):
+    def setUpDevice(self,delAndReFlag=True):
         #Unlock the screen if the screen is locked
         if d(resourceId = 'com.android.keyguard:id/keyguard_selector_view_frame').wait.exists(timeout = 1000):
             lockWindowBounds = d(resourceId = 'com.android.keyguard:id/keyguard_selector_view_frame').info.get('bounds')
             startPoint_x = (lockWindowBounds['right']+lockWindowBounds['left'])/2
             startPoint_y = (lockWindowBounds['bottom']+lockWindowBounds['top'])/2
             d.swipe(startPoint_x,startPoint_y,lockWindowBounds['right'],startPoint_y)
-        #Delete all image/video files captured before
-        self.cmd('rm','/sdcard/DCIM/*')
-        #Refresh media after delete files
-        self.cmd('refresh','/sdcard/DCIM/*')
+        if delAndReFlag:
+            #Delete all image/video files captured before
+            self.cmd('rm','/sdcard/DCIM/*')
+            #Refresh media after delete files
+            self.cmd('refresh','/sdcard/DCIM/*')
         #Launch social camera
         self.cmd('launch',ACTIVITY_NAME)
         time.sleep(2)
@@ -298,28 +321,7 @@ class SetCaptureMode():
         d.click(2195,910)
 
     def switchCaptureMode(self, mode, sub_mode = None):
-        # '''
-        # Usage: This method is used to switch social camera 2.3 capture mode.
-        # e.g. SetCaptureMode.switchCaptureMode('single')
-        # '''
-        # d(description = 'Show switch camera mode list').click.wait()
-        # d.click(2195,910)
-        # time.sleep(1)        
-        # d(description = 'Show switch camera mode list').click.wait()
-        # if mode == 'smile' or mode == 'hdr':
-        #     d(text = POP_MODE[mode]).click.wait()
-        # elif mode == 'burstfast' or mode == 'burstslow':
-        #     self._swipeCaptureList('burst')
-        #     d(text = POP_MODE[mode]).click.wait()
-        # else:
-        #     self._swipeCaptureList(mode)
-        #     time.sleep(1)
-        #     self._clickCaptureMode()
-        '''
-            New designing
-        '''
         d(description = 'Show switch camera mode list').click.wait()
-        time.sleep(2)
         d(text = mode).click.wait()
         if sub_mode != None:
             d(text = SUB_MODE[sub_mode]).click.wait()
@@ -335,7 +337,6 @@ class SetOption():
 
     def _getOptionWidthAndHeight(self):
         optionbounds = d(className = 'android.widget.GridView', resourceId = 'com.intel.camera22:id/setting_gridview').child(className = 'android.widget.RelativeLayout', index = '0').info.get('bounds')
-        #optionbounds = d(className = 'android.widget.RelativeLayout', index = '4').info.get('bounds')
         optionwidth  = (optionbounds['right'] - optionbounds['left'])
         optionheight = (optionbounds['bottom'] - optionbounds['top'])
         return optionwidth, optionheight
@@ -378,7 +379,7 @@ class SetOption():
         d.swipe(x_1, y, x_2 - x_i, y)
         time.sleep(2)
 
-    def setCameraOption(self,optiontext,option):
+    def setCameraOption(self,optiontext,option,mode=ModeNumber['single']):
         '''
            ***Usage***
             To set Scenes as 'sports':
@@ -394,92 +395,44 @@ class SetOption():
             self._slideSettingListUp()
             trytimes = trytimes + 1
         newoptiontext = optiontext.replace(' ', '_')
-        cated_0_0 = int(commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml | wc -l'))
-        cated_0 = int(commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | wc -l'))
+        #cated_0_0 = int(commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml | wc -l'))
+        #cated_0 = int(commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | wc -l'))
         #print '_0_0.xml wc -l = %s' %cated_0_0 + ' and _0.xml wc -l = %s' %cated_0
-        #If it is the first time launching camera, there are only 4 lines in _0_0.xml. Need more logic.
-        #if cated_0_0 <= 4 or cated_0 <= 9:
-        if cated_0_0 <= 4 and cated_0 <= 8 and newoptiontext!='Geo_Location':
-            currentoption = DEFAULT_OPTION[newoptiontext]
-            currentindex = DICT_OPTION_NAME[newoptiontext].index(currentoption)
-            targetindex  = DICT_OPTION_NAME[newoptiontext].index(option)
-            diffindex = abs(currentindex - targetindex)
-            # if currentindex > targetindex:
-            #     self._slideOptionLeftToRight(optiontext, diffindex)
-            # elif currentindex < targetindex:
-            #     self._slideOptionRightToLeft(optiontext, diffindex)
-            if currentindex != targetindex:
-                d.click(self._getFirstItem() + self._getOptionWidthAndHeight()[0] * targetindex, self._getOptionOrdinate(optiontext))
-                d.click(1000,500)
-            else:
-                #Neither higher nor lower than the target option, that means the current option is just the target one.
-                #d(resourceId = 'com.intel.camera22:id/mini_layout_view').click.wait()
-                d.click(1000,500)
-        else:
-            #Get the current option
+        cameraID = commands.getoutput(CAMERA_ID)
+        backOrFront = ((cameraID.split('>')[1]).split('<'))[0]
+        if newoptiontext not in SETTINGS_0:
             if newoptiontext == 'Video_Size':
-                stringcatedone = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext][0])
-                stringcatedtwo = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext][1])
-                currenthighspeed = ((stringcatedone.split('value=\"')[1]).split('\"'))[0]
-                currentqualitykey = ((stringcatedtwo.split('>')[1]).split('<'))[0]
-                currentoption = [currenthighspeed,currentqualitykey]
-            else:
-                if newoptiontext not in SETTINGS_0:
-                    stringcated = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext])
-                    currentoption = ((stringcated.split('>')[1]).split('<'))[0]
+                stringcatedone = commands.getoutput(PATH_PREF_XML+'com.intel.camera22_preferences_'+mode+'_'+backOrFront+'.xml | grep %s' %DICT_OPTION_KEY[newoptiontext][0])
+                stringcatedtwo = commands.getoutput(PATH_PREF_XML+'com.intel.camera22_preferences_'+mode+'_'+backOrFront+'.xml | grep %s' %DICT_OPTION_KEY[newoptiontext][1])
+                if stringcatedone == None or stringcatedone =='' or stringcatedtwo == None or stringcatedtwo == '':
+                    currentoption = DEFAULT_OPTION[newoptiontext]
                 else:
-                    stringcated = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext])
-                    currentoption = ((stringcated.split('>')[1]).split('<'))[0]
-            #Get the current option's index and compare it with the target option
-            currentindex = DICT_OPTION_NAME[newoptiontext].index(currentoption)
-            targetindex  = DICT_OPTION_NAME[newoptiontext].index(option)
-            diffindex = abs(currentindex - targetindex)
-            if currentindex != targetindex:
-                d.click(self._getFirstItem() + self._getOptionWidthAndHeight()[0] * targetindex, self._getOptionOrdinate(optiontext))
-                d.click(1000,500)
+                    currenthighspeed = ((stringcatedone.split('value=\"')[1]).split('\"'))[0]
+                    currentqualitykey = ((stringcatedtwo.split('>')[1]).split('<'))[0]
+                    currentoption = [currenthighspeed,currentqualitykey]
             else:
-                d.click(1000,500)
-            '''
-            #Settinglayout do change UI very much, so need one more logic
-            settinglayout = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | grep pref_settings_layout_key')
-            if settinglayout.find('Large')!= -1:
-                if currentindex != targetindex:
-                    d.click(self._getFirstItem() + self._getOptionWidthAndHeight()[1] * targetindex, self._getOptionOrdinate(optiontext))
-                # else:
-                    # d(resourceId = 'com.intel.camera22:id/mini_layout_view').click.wait()
-            else:
-                #If current option is just the target option, do nothing('pass').
-                if currentindex > targetindex:
-                    self._slideOptionLeftToRight(optiontext, diffindex)
-                elif currentindex < targetindex:
-                    self._slideOptionRightToLeft(optiontext, diffindex)
+                stringcated = commands.getoutput(PATH_PREF_XML+'com.intel.camera22_preferences_'+mode+'_'+backOrFront+'.xml | grep %s' %DICT_OPTION_KEY[newoptiontext])
+                #raise Exception('stringcated: '+stringcated+', adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_'+mode+'_'+backOrFront+'.xml | grep')
+                if stringcated == None or stringcated =='':
+                    currentoption = DEFAULT_OPTION[newoptiontext]
                 else:
-                    #Neither higher nor lower than the target option, that means the current option is just the target one.
-                    d(resourceId = 'com.intel.camera22:id/mini_layout_view').click.wait()
-                    '''
-        # oldoption    = DICT_OPTION_NAME[newoptiontext].index(DEFAULT_OPTION[newoptiontext])
-        # targetoption = DICT_OPTION_NAME[newoptiontext].index(option)
-        # if oldoption != targetoption:
-        #     if newoptiontext == 'Video_Size':
-        #         time.sleep(2)
-        #         resultone = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext][0])
-        #         resulttwo = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext][1])
-        #         if resultone.find(option[0]) == -1 or resulttwo.find(option[1]) == -1:
-        #             raise Exception('Set camera setting <' + optiontext + '> failed')
-        #     else:
-        #         if newoptiontext not in SETTINGS_0:
-        #             time.sleep(2)
-        #             resultoption = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext])
-        #             if resultoption.find(option) == -1:
-        #                 raise Exception('Set camera setting <' + optiontext + '> to <' + option + '> failed')
-        #         else:
-        #             time.sleep(2)
-        #             resultoption = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext])
-        #             if resultoption.find(option) == -1:
-        #                 raise Exception('Set camera setting <' + optiontext + '> to <' + option + '> failed')
-        # else:
-        #     #If the current option is the default one, there is no need for confirmation
-        #     pass
+                    currentoption = ((stringcated.split('>')[1]).split('<'))[0]
+        else:
+            stringcated = commands.getoutput(PATH_PREF_XML+'com.intel.camera22_preferences_0.xml | grep %s' %DICT_OPTION_KEY[newoptiontext])
+            if stringcated == None or stringcated =='':
+                currentoption = DEFAULT_OPTION[newoptiontext]
+            else:
+                currentoption = ((stringcated.split('>')[1]).split('<'))[0]
+        #raise Exception(currentoption)
+        #Get the current option's index and compare it with the target option
+        currentindex = DICT_OPTION_NAME[newoptiontext].index(currentoption)
+        targetindex  = DICT_OPTION_NAME[newoptiontext].index(option)
+        #diffindex = abs(currentindex - targetindex)
+        if currentindex != targetindex:
+            d.click(self._getFirstItem() + self._getOptionWidthAndHeight()[0] * targetindex, self._getOptionOrdinate(optiontext))
+            d.click(1000,500)
+        else:
+            d.click(1000,500)
 
 class TouchButton():
 
@@ -517,7 +470,7 @@ class TouchButton():
         return True
 
     def switchBackOrFrontCamera(self,status):
-        d(resourceId = FRONTBACKBUTTON_DESCR).click.wait()
+        #d(resourceId = FRONTBACKBUTTON_DESCR).click.wait()
         #Dictionary
         camerastatus = {'back': '0','front':'1'}  
         # Get the current camera status
@@ -560,26 +513,31 @@ class TouchButton():
         a = str(result)
         b = a[a.index('value="') + 1:a.rindex('/')]
         cmode = b[b.index('"') + 1:b.rindex('"')]
-        cmodenew = int(cmode)
+        #cmodenew = int(cmode)
         modenew = Mode[cmode]
         currentindex = CONFIRM_MODE_LIST.index(modenew)
         if  mode_index != currentindex:
-            raise Exception('set'+ mode + ' fail')
+            if mode != 'depth' or cmode != ModeNumber['default']:
+                raise Exception('set'+ mode + ' fail')
             #'com.intel.camera22_preferences_'+cmodenew+'.xml'
 
-    def captureAndCheckPicCount(self,capturemode,delaytime=0):
+    def captureAndCheckPicCount(self,capturemode,delaytime=0,times=1):
         d = { 'single':'jpg', 'video':'mp4', 'smile':'jpg', 'longclick':'jpg'} 
         beforeNo = commands.getoutput('adb shell ls /sdcard/DCIM/*/* | grep '+ d[capturemode] +' | wc -l') #Get count before capturing
-        if capturemode == 'video':
-            self.takeVideo(delaytime)
-        else:
-            self.takePicture(capturemode)
-        time.sleep(delaytime) #Sleep a few seconds for file saving
+        for i in range (0,times):
+            if capturemode == 'video':
+                self.takeVideo(delaytime)
+            else:
+                self.takePicture(capturemode)
+            time.sleep(delaytime) #Sleep a few seconds for file saving
         afterNo = commands.getoutput('adb shell ls /sdcard/DCIM/*/* | grep '+ d[capturemode] +' | wc -l') #Get count after taking picture
-        result = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/mode_selected.xml| grep \'value="3"\'')
-        if result.find('value="3"') != -1:
-            if string.atoi(beforeNo) != string.atoi(afterNo) - 10:
-               raise Exception('Taking burst/perfect failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
+        result = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/mode_selected.xml| grep \'value="5"\'')
+        if result.find('value="5"') != -1 and capturemode != 'longclick':
+            if string.atoi(beforeNo) != string.atoi(afterNo) - 10*times:
+               raise Exception('Taking picture/video failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
+        elif not result.find('value="7"') and not result.find('value="0"') and capturemode != 'longclick':
+            if string.atoi(beforeNo) != string.atoi(afterNo) - times:
+                raise Exception('Taking picture/video failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
         else:
-            if string.atoi(beforeNo) == string.atoi(afterNo) :#If the count does not raise up after capturing, case failed
-                raise Exception('Taking pictures/videos failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
+            if string.atoi(beforeNo) == string.atoi(afterNo):#If the count does not raise up after capturing, case failed
+                raise Exception('Taking picture/video failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
