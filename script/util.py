@@ -276,7 +276,7 @@ class Adb():
         self.cmd('launch',ACTIVITY_NAME)
         time.sleep(2)
         #When it is the first time to launch camera there will be a dialog to ask user 'remember location', so need to check
-        if d(text = 'Yes').wait.exists(timeout = 2000):
+        if d(text = 'Yes').wait.exists(timeout = 1000) and not d(text='Skip').wait.exists(timeout=1000):
             d(text = 'Yes').click.wait()
         if d(text = 'Skip').wait.exists(timeout = 2000):
             d(text = 'Skip').click.wait()
@@ -535,7 +535,7 @@ class TouchButton():
         if result.find('value="5"') != -1 and capturemode != 'longclick':
             if string.atoi(beforeNo) != string.atoi(afterNo) - 10*times:
                raise Exception('Taking picture/video failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
-        elif not result.find('value="7"') and not result.find('value="0"') and capturemode != 'longclick':
+        elif result.find('value="7"')==-1 and result.find('value="0"')==-1 and capturemode != 'longclick':
             if string.atoi(beforeNo) != string.atoi(afterNo) - times:
                 raise Exception('Taking picture/video failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
         else:
