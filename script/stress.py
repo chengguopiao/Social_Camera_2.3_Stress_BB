@@ -43,7 +43,7 @@ class CameraTest(unittest.TestCase):
             mode = random.choice(MODE_LIST)
             sm.switchCaptureMode(mode)
             time.sleep(3)
-            tb.confirmCameraMode(util.Confirm_Mode[mode])
+            tb.confirmCameraMode(util.ConfirmMode[mode])
 
         # Test case 2
     def testLaunchCamera50Times(self):
