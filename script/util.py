@@ -30,7 +30,7 @@ POP_MODE  = {'smile':"Smile\nOFF",
              'burstslow':'SLOW'
              }
 ######################################################################################################################################
-Confirm_Mode = {'Depth Snapshot':'depth',
+ConfirmMode = {'Depth Snapshot':'depth',
                 'Single':'single',
                 'Video':'video',
                 'Panorama':'panorama',
