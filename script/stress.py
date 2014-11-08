@@ -54,9 +54,9 @@ class CameraTest(unittest.TestCase):
         2.Repeat 50 times
         3.Exit  activity
         """
-        sm.switchCaptureMode('Single')
+        #sm.switchCaptureMode('Single')
         for i in range(50):
-            self._pressBack(4)
+            a.pressBackKey(4)
             a.cmd('launch',util.ACTIVITY_NAME)
             assert d(resourceId = 'com.intel.camera22:id/shutter_button').wait.exists(timeout=1000),'Launch camera failed!!'
 
@@ -168,7 +168,7 @@ class CameraTest(unittest.TestCase):
             d.click(1200,800)
             time.sleep(1)
             assert d(resourceId = 'android:id/home').wait.exists(timeout = 3000)
-            self._pressBack(1)
+            a.pressBackKey(1)
 
     #case 10
     def testCaptureSingleImage500timesBackCamera(self):
