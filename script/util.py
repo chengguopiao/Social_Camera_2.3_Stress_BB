@@ -548,7 +548,7 @@ class TouchButton():
                 self.takePicture(capturemode)
             time.sleep(delaytime) #Sleep a few seconds for file saving
         afterNo = commands.getoutput('adb shell ls /sdcard/DCIM/*/* | grep '+ d[capturemode] +' | wc -l') #Get count after taking picture
-        result = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/mode_selected.xml| grep \'value="5"\'')
+        result = commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/mode_selected.xml | grep currentMode')
         if result.find('value="5"') != -1 and capturemode != 'longclick':
             if string.atoi(beforeNo) != string.atoi(afterNo) - 10*times:
                raise Exception('Taking picture/video failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
