@@ -399,7 +399,10 @@ class SetOption():
         #cated_0 = int(commands.getoutput('adb shell cat /data/data/com.intel.camera22/shared_prefs/com.intel.camera22_preferences_0.xml | wc -l'))
         #print '_0_0.xml wc -l = %s' %cated_0_0 + ' and _0.xml wc -l = %s' %cated_0
         cameraID = commands.getoutput(CAMERA_ID)
-        backOrFront = ((cameraID.split('>')[1]).split('<'))[0]
+        if cameraID == '' or cameraID == None:
+            backOrFront = '0'
+        else:
+            backOrFront = ((cameraID.split('>')[1]).split('<'))[0]
         if newoptiontext not in SETTINGS_0:
             if newoptiontext == 'Video_Size':
                 stringcatedone = commands.getoutput(PATH_PREF_XML+'com.intel.camera22_preferences_'+mode+'_'+backOrFront+'.xml | grep %s' %DICT_OPTION_KEY[newoptiontext][0])
