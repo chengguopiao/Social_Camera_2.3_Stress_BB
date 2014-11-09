@@ -535,7 +535,7 @@ class TouchButton():
         if result.find('value="5"') != -1 and capturemode != 'longclick':
             if string.atoi(beforeNo) != string.atoi(afterNo) - 10*times:
                raise Exception('Taking picture/video failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
-        elif result.find('value="7"')==-1 and result.find('value="0"')==-1 and capturemode != 'longclick':
+        elif result.find('value="7"')==-1 and capturemode != 'longclick':
             if string.atoi(beforeNo) != string.atoi(afterNo) - times:
                 raise Exception('Taking picture/video failed!'+'bn='+beforeNo+',an='+afterNo+','+d[capturemode])
         else:
