@@ -43,7 +43,7 @@ class CameraTest(unittest.TestCase):
             mode = random.choice(MODE_LIST)
             sm.switchCaptureMode(mode)
             time.sleep(3)
-            tb.confirmCameraMode(util.ConfirmMode[mode])
+            #tb.confirmCameraMode(util.ConfirmMode[mode])
 
         # Test case 2
     def testLaunchCamera50Times(self):
@@ -311,7 +311,7 @@ class CameraTest(unittest.TestCase):
     #step 1
         sm.switchCaptureMode('Single','Smile')
     #step 2
-        so.setCameraOption('Picture Size','StandardScreen',util.ModeNumber['smile'])
+        so.setCameraOption('Picture Size','StandardScreen')
     #step 3
         #for i in range(500):
         #    tb.captureAndCheckPicCount('smile',3)
@@ -327,7 +327,7 @@ class CameraTest(unittest.TestCase):
         """
     #step 1
         sm.switchCaptureMode('Video')
-        so.setCameraOption('Video Size',['false','5'],util.ModeNumber['video'])
+        so.setCameraOption('Video Size',['false','5'])
     #step 2 
         #for i in range (500):
         #    tb.captureAndCheckPicCount('video',3)
@@ -343,7 +343,7 @@ class CameraTest(unittest.TestCase):
         """
     #step 1
         sm.switchCaptureMode('Video')
-        so.setCameraOption('Video Size',['false','4'],util.ModeNumber['video'])
+        so.setCameraOption('Video Size',['false','4'])
     #step 2 
         #for i in range (500):
         #    tb.captureAndCheckPicCount('video',3)
@@ -359,7 +359,7 @@ class CameraTest(unittest.TestCase):
     #step 1
         sm.switchCaptureMode('Burst','Fast')
     #step 2 
-        so.setCameraOption('Picture Size','StandardScreen',util.ModeNumber['burst'])
+        so.setCameraOption('Picture Size','StandardScreen')
     #step 3
         #for i in range(200):
         #    tb.captureAndCheckPicCount('single',5)
