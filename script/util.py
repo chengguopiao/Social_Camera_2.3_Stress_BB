@@ -274,7 +274,7 @@ class Adb():
         self.cmd('launch',ACTIVITY_NAME)
         time.sleep(2)
         #When it is the first time to launch camera there will be a dialog to ask user 'remember location', so need to check
-        if d(text = 'Yes').wait.exists(timeout = 1000) and not d(text = 'Skip').wait.exists(timeout=1000):
+        if d(text = 'Yes').wait.exists(timeout = 2000) and not d(text = 'Skip').wait.exists(timeout=2000):
             d(text = 'Yes').click.wait()
         if d(text = 'Skip').wait.exists(timeout = 2000):
             d(text = 'Skip').click.wait()
