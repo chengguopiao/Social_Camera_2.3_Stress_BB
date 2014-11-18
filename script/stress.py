@@ -390,10 +390,10 @@ class CameraTest(unittest.TestCase):
         for i in range(100):
             sm.switchCaptureMode('Depth Snapshot')
             time.sleep(2)
-            tb.confirmCameraMode('depth')
+            #tb.confirmCameraMode('depth')
             sm.switchCaptureMode('Single')
             time.sleep(2)
-            tb.confirmCameraMode('single')
+            #tb.confirmCameraMode('single')
         #    time.sleep(3)
 
 
